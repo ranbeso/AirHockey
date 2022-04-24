@@ -12,6 +12,7 @@ public class Movement : MonoBehaviour
     Rigidbody2D rb;
     public Transform BoundaryHolder;
     Boundary playerBoundary;
+    Collider2D playerCollider;
 
 
 
@@ -19,10 +20,11 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        R = transform.localScale.x/2;
+        //R = transform.localScale.x/2;
         print(R);
 
         rb = GetComponent<Rigidbody2D>();
+        playerCollider = GetComponent<Collider2D>();
 
         playerBoundary = new Boundary(BoundaryHolder.GetChild(0).position.y,
                                       BoundaryHolder.GetChild(1).position.y,
@@ -42,9 +44,9 @@ public class Movement : MonoBehaviour
             if (wasJustClicked)
             {
                 wasJustClicked = false;
-                double dist = Math.Sqrt((mousePos.x - transform.position.x) * (mousePos.x - transform.position.x) + (mousePos.y - transform.position.y) * (mousePos.y - transform.position.y));
+                //double dist = Math.Sqrt((mousePos.x - transform.position.x) * (mousePos.x - transform.position.x) + (mousePos.y - transform.position.y) * (mousePos.y - transform.position.y));
 
-                if (dist < R)
+                if (playerCollider.OverlapPoint(mousePos))
                 {
                     mouseState = 1;
                 }

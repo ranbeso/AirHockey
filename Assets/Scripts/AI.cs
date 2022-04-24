@@ -18,7 +18,7 @@ public class AI : MonoBehaviour
 
     private Vector2 targetPosition;
 
-    private bool isFirstTimeInOpponentsHalf = true;
+    private bool isFirstTimeInOpponentsHalf = false;
     private float offset;
 
     private void Start()
@@ -38,27 +38,32 @@ public class AI : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        float movementSpeed;
-
-        if (Ball.position.y < ballBoundary.Up)
+        if (!PuckScript.WasGoal)
         {
-            if (isFirstTimeInOpponentsHalf)
+            float movementSpeed;
+
+            if (Ball.position.y < ballBoundary.Up)
             {
-                isFirstTimeInOpponentsHalf = false;
-                offset = Random.Range(-1f, 1f);
+                if (isFirstTimeInOpponentsHalf)
+                {
+                    isFirstTimeInOpponentsHalf = false;
+                    offset = Random.Range(-1f, 1f);
+                }
+                movementSpeed = MaxMovementSpeed * Random.Range(0.1f, 0.3f);
+                targetPosition = new Vector2(Mathf.Clamp(Ball.position.x + offset, playerBoundary.Left, playerBoundary.Right), startingPosition.y);
+
             }
-            movementSpeed = MaxMovementSpeed * Random.Range(0.1f, 0.3f);
-            targetPosition = new Vector2(Mathf.Clamp(Ball.position.x + offset, playerBoundary.Left, playerBoundary.Right), startingPosition.y);
+            else
+            {
+                isFirstTimeInOpponentsHalf = true;
 
+                movementSpeed = Random.Range(MaxMovementSpeed * 0.4f, MaxMovementSpeed);
+                targetPosition = new Vector2(Mathf.Clamp(Ball.position.x, playerBoundary.Left, playerBoundary.Right), Mathf.Clamp(Ball.position.y, playerBoundary.Up, playerBoundary.Down));
+
+            }
+            rb.MovePosition(Vector2.MoveTowards(rb.position, targetPosition, movementSpeed * Time.fixedDeltaTime));
         }
-        else
-        {
-            isFirstTimeInOpponentsHalf = true;
 
-            movementSpeed = Random.Range(MaxMovementSpeed * 0.4f, MaxMovementSpeed);
-            targetPosition = new Vector2(Mathf.Clamp(Ball.position.x, playerBoundary.Left, playerBoundary.Right), Mathf.Clamp(Ball.position.y, playerBoundary.Up, playerBoundary.Down));
 
-        }
-        rb.MovePosition(Vector2.MoveTowards(rb.position, targetPosition, movementSpeed * Time.fixedDeltaTime));
     }
 }
