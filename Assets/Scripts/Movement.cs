@@ -10,6 +10,8 @@ public class Movement : MonoBehaviour
     int mouseState = 0;
 
     Rigidbody2D rb;
+    Vector2 startingPosition;
+
     public Transform BoundaryHolder;
     Boundary playerBoundary;
     Collider2D playerCollider;
@@ -24,6 +26,7 @@ public class Movement : MonoBehaviour
         print(R);
 
         rb = GetComponent<Rigidbody2D>();
+        startingPosition = rb.position;
         playerCollider = GetComponent<Collider2D>();
 
         playerBoundary = new Boundary(BoundaryHolder.GetChild(0).position.y,
@@ -71,5 +74,10 @@ public class Movement : MonoBehaviour
             wasJustClicked = true;
         }
     
+    }
+
+    public void ResetPosition()
+    {
+        rb.position = startingPosition;
     }
 }

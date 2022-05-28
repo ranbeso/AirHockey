@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI : MonoBehaviour
+public class Ai : MonoBehaviour
 {
     public float MaxMovementSpeed;
     private Rigidbody2D rb;
@@ -65,5 +65,10 @@ public class AI : MonoBehaviour
         }
 
 
+    }
+
+    public void ResetPosition()
+    {
+        rb.position = startingPosition;
     }
 }
