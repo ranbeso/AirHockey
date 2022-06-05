@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -48,6 +49,12 @@ public class UIManager : MonoBehaviour
         movement2Player.ResetPosition();
         ai.ResetPosition();
 
+    }
+
+    public void ShowMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
     }
 
   
